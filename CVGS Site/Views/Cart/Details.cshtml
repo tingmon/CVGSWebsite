@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using CVGS_Site.Controllers;
+@using CVGSValidation;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+@model CVGS_Site.Models.Cart
+
+@{ ViewData["Title"] = "Details"; }
+@Html.Raw(TempData["CartMessage"])
+<div>
+    <h1>Cart Details</h1>
+    <hr />
+</div>
+
+<div>
+    <label style="font-weight:bold">Cart Owner</label><br />
+    <p>@Html.DisplayFor(model => model.Person.UserName)</p>
+    <hr />
+    @if (Model.AddedGameIds.ToString().Trim() != "")
+    {
+        string gameTitles = ViewBag.GameTitles;
+        string[] titleArray = gameTitles.Split(',');
+        <table class="tableCart">
+            <thead>
+                <tr>
+                    <th style="width: 82em;">Game Title</th>
+                    <th style="width: 10em;">Price</th>
+                    <th style="width: 10em;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in titleArray)
+                {
+                    if (item != "")
+                    {
+                        <tr>
+                            <td style="width: 82em;">@item.Split("Price:")[0]</td>
+                            <td style="width: 10em;">@item.Split("Price:")[1]</td>
+                            <td style="width: 10em;"><a asp-action="DeleteGameFromCart" asp-route-title="@item">Remove</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <table class="tableTotal" style="float:right;">
+            <thead>
+                <tr>
+                    <th style="width: 5em;">Subtotal</th>
+                    <th style="width: 5em;">Tax</th>
+                    <th style="width: 5em;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>$@ViewBag.TotalPrice</td>
+                    <td>$@CVGS_Site.Controllers.CartController.FormatFloat(Model.Tax.Value)</td>
+                    <td>$@CVGS_Site.Controllers.CartController.FormatFloat(Model.Total.Value)</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+    @if (Model.AddedGameIds.ToString().Trim() == "")
+    {
+        <h3>Your Cart is Empty</h3>
+    }
+
+</div>
+<div class="navDiv">
+    <a class="btn btn-primary btnNav" asp-controller="Game" asp-action="Index">Back to Game List</a> <br />
+    <a class="btn btn-primary btnNav" asp-controller="Person" asp-action="Index">Back to Menu</a> <br />
+    @if (Model.AddedGameIds.ToString().Trim() != "")
+    {
+        <a class="btn btn-primary btnNav" asp-action="Pay" asp-route-id="@Model.CartId">Proceed to Checkout</a>
+    }
+</div>

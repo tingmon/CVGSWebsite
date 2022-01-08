@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Http;
+@model IEnumerable<CVGS_Site.Models.Reviews>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Reviews for @ViewData["GameName"]</h1>
+
+
+@if (ViewData["ReviewWritten"].ToString() == "false" && Context.Session.GetInt32("loggedInPersonID") != null && Context.Session.GetInt32("loggedInPersonID") != 0)
+{
+    <p>
+        <a asp-action="Create" asp-route-id="@Context.Session.GetInt32("loggedInPersonID")" asp-route-guid="@ViewData["guid"]">Write Your Review</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Review)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Game)
+            </th>
+            <th>
+                Reviewer
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Game.EnglishName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Person.GivenName) @Html.DisplayFor(modelItem => item.Person.Surname)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id"> Details </a> |
+                    @if (Context.Session.GetInt32("loggedInPersonID") == item.PersonId)
+                    {
+                        <p>
+                            <a asp-action="Edit" asp-route-id="@item.Id" asp-route-guid="@ViewData["guid"]">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id"> Delete </a>
+                        </p>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

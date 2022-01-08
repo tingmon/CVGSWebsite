@@ -1,0 +1,94 @@
+﻿@using Microsoft.AspNetCore.Http;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+@{ ViewData["Title"] = Model.Person.GivenName + "s Profile"; }
+@if (Model.Profile.Id == Context.Session.GetInt32("loggedInPersonID"))
+{
+    <h2>Your Profile</h2>
+    <a class="btn btn-primary form-control spacer-bottom width-150" asp-area="" asp-controller="Person" asp-action="Edit">Edit Profile</a>
+}
+else
+{
+    <h2>@Model.Profile.GivenName 's Profile</h2>
+}
+<div class="form-group, customLoginDiv">
+    <table>
+        <tr>
+            <th>Full Name: </th>
+            <td>@Model.Profile.GivenName @Model.Profile.Surname </td>
+        </tr>
+        <tr>
+            <th>Address: </th>
+            <td>@Model.Profile.Street</td>
+        </tr>
+        <tr>
+            <th>City: </th>
+            <td>@Model.Profile.City</td>
+        </tr>
+        <tr>
+            <th>Province: </th>
+            <td>@Model.Profile.ProvinceCode</td>
+        </tr>
+        <tr>
+            <th>Country: </th>
+            <td>@Model.Profile.CountryCode</td>
+        </tr>
+        <tr>
+            <th>Postal Code: </th>
+            <td>@Model.Profile.PostalCode</td>
+        </tr>
+        <tr>
+            <th>Number: </th>
+            <td>@Model.Profile.LandLine</td>
+        </tr>
+        <tr>
+            <th>Extension: </th>
+            <td>@Model.Profile.Extension</td>
+        </tr>
+        <tr>
+            <th>Fax: </th>
+            <td>@Model.Profile.Fax</td>
+        </tr>
+        <tr>
+            <th>Email: </th>
+            <td>@Model.Profile.Email</td>
+        </tr>
+    </table>
+</div>
+@if (Model.Profile.Id == Context.Session.GetInt32("loggedInPersonID"))
+{
+    <h2>Your WishList</h2>
+}
+else
+{
+    <h2>@Model.Profile.GivenName 's WishList</h2>
+}
+@if (Model.Profile.Id == Context.Session.GetInt32("loggedInPersonID"))
+{
+<a class="btn btn-primary form-control spacer-bottom width-150" asp-area="" asp-controller="Wishlists" asp-action="Details" asp-route-id="@Model.Person.Id">Go to your wishlist</a>}
+
+<div class="form-group, customLoginDiv">
+    @if (Model.Wishlist.AddedGameIds.ToString().Trim() != "")
+    {
+        string gameTitles = ViewBag.GameTitles;
+        string[] titleArray = gameTitles.Split(',');
+<table class="tableCart">
+    <thead>
+        <tr>
+            <th style="width: 82em;">Game Title</th>
+            <th style="width: 10em;">Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in titleArray)
+        {
+            if (item != "")
+            {
+<tr>
+    <td style="width: 82em;">@item.Split("Price:")[0]</td>
+    <td style="width: 10em;">@item.Split("Price:")[1]</td>
+</tr>                    }
+                }
+    </tbody>
+</table>}
+</div>

@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using CVGS_Site.Controllers;
+@using CVGSValidation;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+@model IEnumerable<CVGS_Site.Models.Report>
+
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h1>Reports</h1>
+<a class="btn btn-primary" asp-controller="Report" asp-action="Create">Create Report</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Report Name
+            </th>
+            <th>
+                Report Body
+            </th>
+            <th>
+                Reporter ID Number
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReportName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReportBody)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonId)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ReportId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

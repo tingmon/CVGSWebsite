@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+@{ ViewData["Title"] = "Games List"; }
+@Html.Raw(TempData["CartMessage"])
+<h1>Games List</h1>
+@if (Context.Session.GetInt32("loggedInPersonID") != null && Context.Session.GetInt32("loggedInPersonID") != 0)
+{
+<div style="float:left;">
+    @if (Context.Session.GetInt32("isEmployee") == 1)
+    {
+        <a class="btn btn-primary" asp-action="Create">Add New Game</a>
+    }
+</div>
+}
+
+@using (Html.BeginForm())
+{
+<div style="float:right;">
+    <label for="search">Search By Title</label>
+    <input type="text" id="search" name="search">
+    <input class="btn btn-primary" value="Search" type="submit" />
+    <a class="btn btn-primary" asp-action="Index">Show All Games</a><br />
+    <br />
+</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th colspan="4">Description</th>
+            <th>ESRB</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th colspan="2"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.GameList as IEnumerable<CVGS_Site.Models.Game>)
+        {
+        <tr>
+            <td>@item.EnglishName</td>
+            <td colspan="4">@item.EnglishDescription</td>
+            <td>@item.EsrbRatingCodeNavigation.Code</td>
+            <td>@item.GameCategory.EnglishCategory<br />
+                @if (item.EnglishPlayerCount == "1")
+                {
+                    @:Single-Player
+                }
+                else
+                {
+                    @:Multi-Player(@item.EnglishPlayerCount)
+                }
+            </td>
+            <td>@item.GameStatusCode</td>
+            <td>
+                <a class="btn btn-primary btnText" asp-controller="Review" asp-action="Index" asp-route-id="@item.Guid">Reviews</a>
+                <a class="btn btn-primary btnText" asp-action="Details" asp-route-id="@item.Guid"> Details </a>
+                @if (Context.Session.GetInt32("loggedInPersonID") != null && Context.Session.GetInt32("loggedInPersonID") != 0)
+                {
+                    <a class="btn btn-primary btnText" asp-controller="Cart" asp-action="AddGameToCart" asp-route-gameId="@item.Guid"> Add to Cart </a>
+                    <a class="btn btn-primary btnText" asp-controller="Wishlists" asp-action="AddGameToWishList" asp-route-gameId="@item.Guid"> Add to Wishlist </a>
+                    <a class="btn btn-primary btnText" asp-action="Rate" asp-route-id="@item.Guid"> Rate Game </a>
+                }
+                @if (Context.Session.GetInt32("isEmployee") == 1)
+                {
+                    <a class="btn btn-primary btnText" asp-action="Edit" asp-route-id="@item.Guid">Edit</a>
+                    <a class="btn btn-primary btnText" asp-action="Delete" asp-route-id="@item.Guid"> Delete </a>
+                }
+            </td>
+        </tr>}
+    </tbody>
+</table>

@@ -1,0 +1,61 @@
+﻿
+@using Microsoft.AspNetCore.Http;
+@using CVGS_Site.Controllers;
+@using CVGSValidation;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+@{
+    ViewData["Title"] = "Payment";
+}
+@model CVGS_Site.Models.Cart
+@Html.Raw(TempData["CartMessage"])
+
+<div>
+    <h4>Payment Information</h4>
+    <hr />
+    @if (Model.AddedGameIds.ToString().Trim() != "")
+    {
+        <label style="font-weight:bold">User</label><br />
+        <p>@Html.DisplayFor(model => model.Person.UserName)</p>
+        <label style="font-weight:bold">Game List</label><br />
+        string gameTitles = ViewBag.GameTitles;
+        string[] titleArray = gameTitles.Split(',');
+        foreach (var item in titleArray)
+        {
+            if (item != "")
+            {
+                <span style="margin-right:10px">@item</span><br />
+            }
+        }
+
+        <label style="font-weight:bold">Total Price</label><br />
+        <p>$@ViewBag.TotalPrice</p>
+
+        <label style="font-weight:bold">Tax</label><br />
+        <p>$@CVGS_Site.Controllers.CartController.FormatFloat(Model.Tax.Value)</p>
+
+        <label style="font-weight:bold">Total Amount</label><br />
+        <p>$@CVGS_Site.Controllers.CartController.FormatFloat(Model.Total.Value)</p>
+
+        <label style="font-weight:bold">Billing Address</label><br />
+        <p>@ViewBag.BillingAddress</p>
+
+        <label style="font-weight:bold">Credit Card Number</label><br />
+
+
+        @using (Html.BeginForm())
+        {
+            <select name="cardNumber" class="form-control" asp-items="ViewBag.CardNumber"></select><br />
+            <hr />
+            <input class="btn btn-primary" value="Pay" type="submit" style="float:right; width:10em;" />
+            <a class="btn btn-primary" asp-controller="Cart" asp-action="Details" asp-route-id="@Model.CartId" style="float: left; width: 10em;">Back to Cart</a>
+        }
+    }
+    @if (Model.AddedGameIds.ToString().Trim() == "")
+    {
+        <h3>There is No Payment Information</h3>
+    }
+
+</div>
+
+

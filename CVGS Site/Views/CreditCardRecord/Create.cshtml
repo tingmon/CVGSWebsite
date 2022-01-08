@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Http;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+
+@model CVGS_Site.Models.CreditCardRecord
+
+@{ ViewData["Title"] = "Create"; }
+
+<h1>Add New Credit Card</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div hidden class="form-group">
+                <label asp-for="PersonId" class="control-label"></label>
+                <select asp-for="PersonId" class="form-control" asp-items="ViewBag.PersonId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CardNumber" class="control-label">Card Number</label>
+                <input required asp-for="CardNumber" class="form-control" />
+                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            </div><img src="~/images/card companies.png" alt="card company logo" width="200" />
+            <div class="form-group">
+                <label asp-for="ExpiryDateMonth" class="control-label">Expiry Month</label>
+                <input required asp-for="ExpiryDateMonth" class="form-control" />
+                <span asp-validation-for="ExpiryDateMonth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExpiryDateYear" class="control-label">Expiry Year</label>
+                <input required asp-for="ExpiryDateYear" class="form-control" />
+                <span asp-validation-for="ExpiryDateYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cvv" class="control-label">CVV</label>
+                <input required asp-for="Cvv" class="form-control" />
+                <span asp-validation-for="Cvv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

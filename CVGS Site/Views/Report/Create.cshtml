@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using CVGS_Site.Controllers;
+@using CVGSValidation;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+@model CVGS_Site.Models.Report
+
+@{
+    ViewData["Title"] = "Create Report";
+}
+
+<h1>Create Report</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ReportName" class="control-label"></label>
+                <input asp-for="ReportName" class="form-control reportName" />
+                <span asp-validation-for="ReportName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReportBody" class="control-label"></label>
+                <textarea asp-for="ReportBody" class="form-control reportBody" maxlength ="2000"></textarea>
+                <span asp-validation-for="ReportBody" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="PersonId" class="control-label"></label>
+                <input asp-for="PersonId" class="form-control" value="@Context.Session.GetInt32("loggedInPersonID")"/>
+                <span asp-validation-for="PersonId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Report" asp-action="Index">Back to Index</a>
+</div>
+

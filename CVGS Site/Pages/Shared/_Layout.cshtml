@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Http;
+@model dynamic
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CVGS_Site</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">CVGS</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <!--<partial name="_LoginPartial" />-->
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (Context.Session.GetInt32("loggedInPersonID") != null && Context.Session.GetInt32("loggedInPersonID") != 0)
+                        {
+                    <li class="nav-item">
+                        <a href="/Person/Index" class="nav-link text-dark">Home</a>
+                    </li>
+ }
+                else
+                {
+                    <li class="nav-item">
+                        <a href="/Index" class="nav-link text-dark">Home</a>
+                    </li>
+}
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Game" asp-action="Index">Games</a>
+                        </li>
+                        <li class="<nav>-item">
+                            <a href="/Privacy" class="nav-link text-dark">Privacy</a>
+                        </li>
+                        <li class="nav-item, nav-spacer">
+                        </li>
+                        @if (Context.Session.GetInt32("loggedInPersonID") != null && Context.Session.GetInt32("loggedInPersonID") != 0)
+                        {
+                    <li class="nav-item, nav-right">
+                        <a class="nav-link text-dark" asp-controller="Person" asp-action="Profile" asp-route-profileId="@Context.Session.GetInt32("loggedInPersonID")">Your Profile</a>
+                    </li>
+                                    <li class="nav-item, nav-right">
+                                        <a class="nav-link text-dark" asp-controller="Cart" asp-action="Details" asp-route-id="@Context.Session.GetInt32("loggedInPersonID")">Your Cart</a>
+                                    </li>
+                                                    <li class="nav-item, nav-right">
+                                                        <a class="nav-link text-dark" asp-controller="Person" asp-action="Logout">Log Out</a>
+                                                    </li>
+ }
+                                                else
+                                                {
+                                    <li class="nav-item, nav-right">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Person" asp-action="Login">Login</a>
+                                    </li>
+}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container footer-fix">
+        <main role="main" class="pb-3">
+
+            <div class="spacer">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - CVGS - Written By: The Excellent Coders (Team 02) <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

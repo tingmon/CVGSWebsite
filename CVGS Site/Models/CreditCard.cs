@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
+namespace CVGS_Site.Models
+{
+    public partial class CreditCard
+    {
+        public CreditCard()
+        {
+            CreditCardRecord = new HashSet<CreditCardRecord>();
+        }
+
+        public string Code { get; set; }
+        public string EnglishName { get; set; }
+        public string FrenchName { get; set; }
+        public byte CardNumberLength { get; set; }
+        public string CardNumberPrefixList { get; set; }
+
+        public virtual ICollection<CreditCardRecord> CreditCardRecord { get; set; }
+    }
+}

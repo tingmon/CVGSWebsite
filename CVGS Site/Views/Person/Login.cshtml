@@ -1,0 +1,32 @@
+﻿@{ Layout = "_Layout"; }
+@{ ViewData["Title"] = "User Login"; }
+@using Microsoft.Extensions.Options;
+@section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
+    <h1>User Login</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-controller="Person" asp-action="Login" method="post">
+                <div class="errorText">
+                    <p>@TempData["LoginError"]</p>
+                </div>
+                <div class="form-group, customLoginDiv">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" name="userName" id="userName" value="@TempData["userName"]" />
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" />
+                    <a href="/Person/Index" class="nav-link text-dark">Forgot Password?</a>
+                    <input type="hidden" name="pageCode" id="pageCode" value="1" />
+                    <div class="form-group">
+                        <div class="g-recaptcha" data-sitekey="6LdisQEdAAAAAAGJk2p05FVgGM4XVJcUnzZD2EFS"></div>
+                    </div>
+                    <input type="submit" value="Login" class="form-control" />
+                    <a href="/Person/Create" class="nav-link text-dark">New User? Create an account here!</a>
+                </div>
+            </form>
+        </div>
+    </div>

@@ -1,0 +1,46 @@
+﻿@model CVGS_Site.Models.Reviews
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Game:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Game.EnglishName)
+        </dd>
+        <dt class="col-sm-2">
+            Reviewed On:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReviewDate)
+        </dd>
+        <dt class="col-sm-2">
+            By:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Person.GivenName) @Html.DisplayFor(model => model.Person.Surname)
+        </dd>
+        <dt class="col-sm-2">
+            Review:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Review)
+        </dd>
+
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-guid="@Model.GameId">Edit</a> |
+    <a asp-action="Index" asp-route-id="@Model.GameId">Back to List</a>
+</div>

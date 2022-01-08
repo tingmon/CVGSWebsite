@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using CVGS_Site.Controllers;
+@using CVGSValidation;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+@model CVGS_Site.Models.SalesRecord
+@Html.Raw(TempData["PayMessage"])
+@{ ViewData["Title"] = "DownloadGame"; }
+
+<h1>Thank you!</h1>
+<hr />
+<h2>Your payment record has been saved</h2>
+<div>
+    <h4>Credit Card Record</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RecordId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RecordId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Person.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Person.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductList)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProductList)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreditCard)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreditCard)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PaymentDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class="col-sm-10">
+            $@Html.DisplayFor(model => model.Amount)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a href="~/files/Link In Bomberland.zip" class="btn btn-primary" style="float: left; width: 10em;">Download Game</a>
+    <a class="btn btn-primary" asp-action="MakeReceipt" asp-route-id="@Model.RecordId" style="float: left; width: 10em;">Create Reciept</a>
+    <a class="btn btn-primary" asp-controller="Person" asp-action="Index" style="float: left; width: 10em;">Back to Menu</a>
+</div>
+

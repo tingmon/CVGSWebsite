@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Http;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+
+@model IEnumerable<CVGS_Site.Models.CreditCardRecord>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@Html.Raw(TempData["NoCardMessage"])
+
+<h1>Your Cards</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Add New Card</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Card Number
+            </th>
+            <th>
+                Expiry Date
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cvv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CardCode)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CardNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiryDateMonth)/@Html.DisplayFor(modelItem => item.ExpiryDateYear)
+                </td>
+                <td>
+                    CVV
+                </td>
+                <td>
+                    Card Type
+                </td>
+                <td>
+                    <a class="btn btn-primary btnTextCC" asp-action="Edit" asp-route-id="@item.CardId">Edit</a>
+                    <a class="btn btn-primary btnTextCC" asp-action="Details" asp-route-id="@item.CardId">Details</a>
+                    <a class="btn btn-primary btnTextCC" asp-action="Delete" asp-route-id="@item.CardId">Remove Card</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

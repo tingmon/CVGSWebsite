@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Http;
+@model IEnumerable<CVGS_Site.Models.EventLog>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ Layout = "_Layout"; }
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h1>Events</h1>
+<img src="~/images/event.jpg" alt="events" />
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create an Event</a>
+    <a class="btn btn-primary" asp-action="Index" asp-controller="Registration" style="float:right;">Event Registration</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Event Name</p>
+            </th>
+            <th>
+                <p>Event Start</p>
+            </th>
+            <th>
+                <p>Event End</p>
+            </th>
+            <th>
+                <p>Event Details</p>
+            </th>
+            <th>
+                <p>Event Creator</p>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator)
+                </td>
+                <td style="width:5em;">
+                    <a class="btn btn-primary btnText" asp-action="Details" asp-route-id="@item.EventId"> Details </a>
+                    @if (Context.Session.GetInt32("loggedInPersonID") == item.PersonId)
+                    {
+                        <a class="btn btn-primary btnText" asp-action="Edit" asp-route-id="@item.EventId">Edit</a>
+                        <a class="btn btn-primary btnText" asp-action="Delete" asp-route-id="@item.EventId">Cancel this Event</a>
+                    }
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

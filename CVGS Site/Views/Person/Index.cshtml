@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Http;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+@{
+    ViewData["Title"] = "User Home Page";
+}
+<h3>Welcome @Model.Person.GivenName @Model.Person.Surname</h3>
+
+<div class="errorText">
+    <p>@TempData["IndexError"]</p>
+</div>
+@if (Model.Employee != null)
+{
+<div class="form-group customMenuDiv">
+    <h2>Employee Actions</h2>
+    <a class="form-control text-center" asp-area="" asp-controller="Game" asp-action="Create" asp-route-profileId="@Model.Person.Id">Create Game</a><br />
+    <a class="form-control text-center" asp-area="" asp-controller="Event" asp-action="Create" asp-route-profileId="@Model.Person.Id">Create Event</a><br />
+    <a class="form-control text-center" asp-area="" asp-controller="Report" asp-action="Index">View Reports</a><br />
+</div>
+}
+<div class="form-group customMenuDiv">
+    <h2>Member Actions</h2>
+    <a class="form-control text-center" asp-area="" asp-controller="Person" asp-action="Profile" asp-route-profileId="@Model.Person.Id">View Your Profile</a><br />
+    <a class="form-control text-center" asp-area="" asp-controller="CreditCardRecord" asp-action="Index" asp-route-profileId="@Model.Person.Id">Manage Credit Cards</a><br />
+    <a class="form-control text-center" asp-area="" asp-controller="Game" asp-action="Index" asp-route-profileId="@Model.Person.Id">Find Games</a><br />
+    <a class="form-control text-center" asp-area="" asp-controller="Wishlists" asp-action="Details" asp-route-id="@Model.Person.Id">Your Wishlist</a><br />
+    <a class="form-control text-center" asp-area="" asp-controller="Event" asp-action="Index" asp-route-profileId="@Model.Person.Id">View Events</a><br /><br />
+    <a class="form-control text-center" asp-area="" asp-controller="Report" asp-action="Create">Create Report</a>
+</div>
